@@ -52,33 +52,13 @@ makeSnakeSquare(10, 10); // Create the first square in the middle of the board
 makeSnakeSquare(10, 9); // Create a second square to the left of the first
 makeSnakeSquare(10, 8); // Create a third square to the left of the second
 snake.head = snake.body[0]; // Mark the first segment as the head
-  // initialize a new snakeSquare Object
-const snakeSquare = {};
 
-// make the snakeSquare element and add it to the board
-snakeSquare.element = $("<div>").addClass("snake").appendTo(board);
-
-// assign the row and column position
-snakeSquare.row = row;
-snakeSquare.column = column;
-
-// set the snake’s position visually
-repositionSquare(snakeSquare);
-
-// if this is the head, give it a unique ID
-if (snake.body.length === 0) {
-  snakeSquare.element.attr("id", "snake-head");
-}
-
-// add the square to the snake’s body and update the tail
-snake.body.push(snakeSquare);
-snake.tail = snakeSquare;
   
   // TODO 4, Part 3: initialize the apple
 makeApple();
 
   // TODO 6, Part 1: Initialize the interval
-updateInterval = setInterval(update, 100);
+updateInterval = setInterval(update, 250);
 
 }
 
@@ -92,9 +72,7 @@ updateInterval = setInterval(update, 100);
  */
 function update() {
   console.log("updating...");
-  if (started) {
-  moveSnake();
-}
+ 
 
 if (hasHitWall() || hasCollidedWithSnake()) {
   endGame();
