@@ -1,8 +1,9 @@
 $(document).ready(function () {
-  
+ 
 /////////////////
 // initialization
 /////////////////
+
 
 // this section initializes some variables that will be used throughout the program
 var doubleMaxSpeed = 5;
@@ -16,9 +17,11 @@ var ghostRadius = 10;
 const FPS = 25;
 const initialDelay = 5_000;
 
+
 //////////
 // startup
 //////////
+
 
 // this gets the whole thing going;
 // it creates a number of ghosts both in JavaScript and in the HTML of the website
@@ -27,16 +30,20 @@ for (var i = 0; i < maxGhosts; i++) {
   var newGhost = makeGhost(newId);
   ghosts.push(newGhost);
 
+
   addNewGhostElement(newGhost, newId);
 }
+
 
 // calling this function first starts a 5 second countdown
 // after the countdown, the update function will be called repeatedly 25 times per second
 startProgram();
 
+
 ///////////////////////////
 // startup helper functions
 ///////////////////////////
+
 
 // this creates a ghost object and returns it
 // note: it only creates an object; it does not create a ghost in the HTML
@@ -44,9 +51,11 @@ function makeGhost(id) {
   // this creates an empty object
   var ghost = {};
 
+
   // this creates some useful variables that are not directly placed in the object
   var maxX = boardWidth - ghostRadius * 2;
   var maxY = boardHeight - ghostRadius * 2;
+
 
   // this gives the ghost object all of the data that it needs to store
   ghost.id = "#" + id;
@@ -54,6 +63,7 @@ function makeGhost(id) {
   ghost.y = Math.random() * maxY + ghostRadius;
   ghost.speedX = decideSpeed();
   ghost.speedY = decideSpeed();
+
 
   // assign a random color for the ghost's glow
   const colors = [
@@ -70,18 +80,22 @@ function makeGhost(id) {
   ];
   ghost.color = colors[Math.floor(Math.random() * colors.length)];
 
+
   return ghost;
 }
+
 
 // this generates a random speed value
 function decideSpeed() {
   return (Math.random() * doubleMaxSpeed) / 2 - doubleMaxSpeed;
 }
 
+
 // this generates an id for a ghost given the ghost's number
 function getId(number) {
   return "ghost" + number;
 }
+
 
 // this adds a ghost into the HTML
 function addNewGhostElement(ghost, id) {
@@ -93,13 +107,16 @@ function addNewGhostElement(ghost, id) {
     .css("top", ghost.y)
     .addClass("ghost");
 
+
   // this inserts the ghost's HTML into your website
   $ghost.appendTo($board);
 }
 
+
 //////////////////
 // update function
 //////////////////
+
 
 // this should move all of the ghosts
 function update() {
@@ -109,29 +126,36 @@ function update() {
   for (var i = 0; i < maxGhosts; i++) {
     var ghost = ghosts[i];
 
+
     // move the ghost
     moveGhost(ghost);
+
 
     // bounce the ghost, if it hits a wall
     bounceGhost(ghost);
 
+
     // redraw the ghost on the screen after it moves
     updateGhostOnScreen(ghost);
+
 
     // make sure the ghost is oriented correctly
     updateOrientation(ghost);
   }
 }
 
+
 //////////////////////////
 // update helper functions
 //////////////////////////
 
+
 // this moves ghosts in memory but doesn't update them on the screen
 function moveGhost(ghost) {
-  ghost.x = ghost.speedX;
+  ghost.x += ghost.speedX;
   ghost.y += ghost.speedY;
 }
+
 
 // this bounces ghosts if they hit a wall
 function bounceGhost(ghost) {
@@ -157,9 +181,11 @@ function bounceGhost(ghost) {
   }
 }
 
+
 // this redraws the ghost's position on the screen
 function updateGhostOnScreen(ghost) {
   maxGhosts = 10;
+
 
   // these lines redraw the ghost's position
   $(ghost.id).css("left", ghost.x);
@@ -167,24 +193,28 @@ function updateGhostOnScreen(ghost) {
     $(ghost.id).css("right", ghost.x);
   $(ghost.id).css("bottom", ghost.y);
 
+
   // these lines add a glow around the ghost
   $(ghost.id).css("transition", "left 0.2s linear, top 0.2s linear, filter 0.2s");
   $(ghost.id).css(
     "filter",
     `drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px ${ghost.color}) drop-shadow(0 0 12px ${ghost.color})`
   );
-  
+ 
 }
+
 
 ////////////////////////////////////////////
 // DO NOT CHANGE ANY CODE BELOW THIS LINE //
 ////////////////////////////////////////////
+
 
 // This function works just fine - do not modify!!
 function updateOrientation(ghost) {
   // Default orientation
   var scaleX = 1;
   var scaleY = 1;
+
 
   // Flip horizontally if moving right
   if (ghost.speedX > 0) {
@@ -193,6 +223,7 @@ function updateOrientation(ghost) {
     scaleX = 1;
   }
 
+
   // Flip vertically if moving down
   if (ghost.speedY > 0) {
     scaleY = -1;
@@ -200,12 +231,15 @@ function updateOrientation(ghost) {
     scaleY = 1;
   }
 
+
   $(ghost.id).css("transform", `scaleX(${scaleX}) scaleY(${scaleY})`);
 }
+
 
 ////////////////////////////
 // setup helper functions //
 ////////////////////////////
+
 
 // This function works just fine - do not modify!!
 function startProgram() {
@@ -223,12 +257,15 @@ function startProgram() {
     width: "100%",
   });
 
+
   // Make sure #board is position: relative so absolute children are positioned inside it
   $board.css("position", "relative");
   $countdown.appendTo($board);
 
+
   var countdownSeconds = initialDelay / 1000;
   $countdown.text("Starting in: " + countdownSeconds);
+
 
   var countdownInterval = setInterval(function () {
     countdownSeconds--;
@@ -240,7 +277,9 @@ function startProgram() {
     }
   }, 1000);
 
+
   setTimeout(startInterval, initialDelay);
+
 
   function startInterval() {
     setInterval(update, 1000 / FPS);
@@ -248,5 +287,7 @@ function startProgram() {
   }
 }
 
+
 });
+
 
